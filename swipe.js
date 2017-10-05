@@ -213,6 +213,7 @@
 
         // if user is not trying to scroll vertically
         if (!isScrolling) {
+          container.classList.add('active')
 
           // prevent native scrolling
           event.preventDefault();
@@ -247,14 +248,14 @@
       },
 
       end: function(event) {
-
+        container.classList.remove('active')
+        
         // measure duration
         var duration = +new Date() - start.time;
 
         // determine if slide attempt triggers next/prev slide
         var isValidSlide =
-            Number(duration) < 250 &&         // if slide duration is less than 250ms
-            Math.abs(delta.x) > 20 ||         // and if slide amt is greater than 20px
+            Math.abs(delta.x) > 100 ||         // and if slide amt is greater than 20px
             Math.abs(delta.x) > width/2;      // or if slide amt is greater than half the width
 
         // determine if slide attempt is past start and end
@@ -321,6 +322,10 @@
               move(index-1, -width, speed);
               move(index, 0, speed);
               move(index+1, width, speed);
+            }
+
+            if (isValidSlide) {
+              runCallback(getPos(), slides[index], direction);
             }
           }
         }

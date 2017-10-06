@@ -55,6 +55,7 @@
 
     // Distance that it takes for the next slide to be triggered
     var distance = options.distance || 100;
+    var arrowContainer = options.arrowContainer || container;
 
     // utilities
     // simple no operation function
@@ -216,7 +217,7 @@
 
         // if user is not trying to scroll vertically
         if (!isScrolling) {
-          container.classList.add('active');
+          arrowContainer.classList.add('active');
 
           // prevent native scrolling
           event.preventDefault();
@@ -250,16 +251,16 @@
           // Let's add the trigger class once the distance swipe has been reached
           if (Math.abs(delta.x) >= distance) {
             var sideClass = (delta.x < 0) ? 'right' : 'left';
-            container.classList.add(sideClass);
+            arrowContainer.classList.add(sideClass);
           } else {
-            container.classList.remove('right', 'left');            
+            arrowContainer.classList.remove('right', 'left');            
           }
 
         }
       },
 
       end: function(event) {
-        container.classList.remove('active')
+        arrowContainer.classList.remove('active')
         
         // measure duration
         var duration = +new Date() - start.time;

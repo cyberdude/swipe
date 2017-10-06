@@ -1,6 +1,6 @@
 {
   "name": "swipejs",
-  "version": "c1.0.1",
+  "version": "10.0.1",
   "main": "swipe.js",
   "types": "types/swipe.d.ts",
   "description": "Swipe is the most accurate touch slider",

@@ -53,6 +53,9 @@
 
     var disabled = false;
 
+    // Distance that it takes for the next slide to be triggered
+    var distance = options.distance || 100;
+
     // utilities
     // simple no operation function
     var noop = function() {};
@@ -213,7 +216,7 @@
 
         // if user is not trying to scroll vertically
         if (!isScrolling) {
-          container.classList.add('active')
+          container.classList.add('active');
 
           // prevent native scrolling
           event.preventDefault();
@@ -238,12 +241,20 @@
                 ) ?
                ( Math.abs(delta.x) / width + 1 )      // determine resistance level
                : 1 );                                 // no resistance if false
-
+            
             // translate 1:1
             translate(index-1, delta.x + slidePos[index-1], 0);
             translate(index, delta.x + slidePos[index], 0);
             translate(index+1, delta.x + slidePos[index+1], 0);
           }
+          // Let's add the trigger class once the distance swipe has been reached
+          if (Math.abs(delta.x) >= distance) {
+            var sideClass = (delta.x < 0) ? 'right' : 'left';
+            container.classList.add(sideClass);
+          } else {
+            container.classList.remove('right', 'left');            
+          }
+
         }
       },
 
@@ -255,7 +266,7 @@
 
         // determine if slide attempt triggers next/prev slide
         var isValidSlide =
-            Math.abs(delta.x) > 100 ||         // and if slide amt is greater than 20px
+            Math.abs(delta.x) > distance ||         // and if slide amt is greater than 20px
             Math.abs(delta.x) > width/2;      // or if slide amt is greater than half the width
 
         // determine if slide attempt is past start and end
